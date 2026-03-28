@@ -1,0 +1,27 @@
+company,contact,email,status,deal_value,last_contact,owner,source,industry,notes
+Rolf Inc.,Henrik Rolf,henrik@rolfinc.com,Active,42300,2026-02-15,Armin A.,Dribbble,Manufacturing,High-value enterprise deal; decision expected Q2
+Cargo2go,Yuki Tanaka,yuki@cargo2go.io,Active,39200,2026-03-25,Armin A.,LinkedIn,Logistics,Expanding fleet management platform; strong buy signals
+Cloudzr,Priya Sharma,priya@cloudzr.dev,Active,36750,2026-03-22,Armin A.,Google,Cloud Services,Migration from AWS; needs onboarding support
+Idioma,Carlos Reyes,carlos@idioma.co,Stalled,28900,2026-01-18,Eren Y.,Dribbble,EdTech,Budget freeze until April; follow up after Q1
+Syllables,Lena Johansson,lena@syllables.ai,Active,32600,2026-03-20,Armin A.,Behance,AI/ML,Series A funded; scaling content pipeline
+Nexova Solutions,Marcus Chen,marcus@nexova.io,Active,27800,2026-03-27,Eren Y.,Instagram,SaaS,Pilot phase; 3-month contract pending signature
+Greenfield Labs,Amara Osei,amara@greenfieldlabs.com,Closed Won,24800,2026-03-10,Armin A.,Dribbble,Biotech,Signed annual contract; upsell Q3
+Tidepool Analytics,Raj Patel,raj@tidepoolanalytics.com,Active,23500,2026-03-18,Eren Y.,Google,Data Analytics,Evaluating competitor; needs ROI case study
+Vektor Design,Sophie Laurent,sophie@vektordesign.eu,New,19500,2026-03-28,Mikasa A.,Behance,Design Agency,Inbound from portfolio showcase; very engaged
+Stratos Freight,Dimitri Kosta,dimitri@stratosfreight.gr,Active,21400,2026-03-15,Eren Y.,LinkedIn,Logistics,Athens-based; strong referral from Cargo2go
+Maplewood Partners,Jennifer Wu,jennifer@maplewoodpartners.com,Stalled,16800,2026-01-05,Mikasa A.,Instagram,Consulting,No response to last 3 emails; consider re-engagement
+Pinnacle Health,David Okafor,david@pinnaclehealth.ng,Active,18200,2026-03-21,Mikasa A.,Dribbble,Healthcare,HIPAA compliance review in progress
+Cobalt Systems,Ingrid Berg,ingrid@cobaltsystems.se,Closed Won,14200,2026-02-28,Armin A.,Google,IT Services,Renewed 2-year contract
+Luminary Studios,Alex Rivera,alex@luminarystudios.co,New,15800,2026-03-26,Levi R.,Instagram,Media,Content production partnership opportunity
+Ironforge Tech,Tom Bradley,tom@ironforgetech.com,Active,14500,2026-03-19,Levi R.,LinkedIn,Cybersecurity,Security audit proposal sent; awaiting legal review
+Solaris Energy,Fatima Al-Hassan,fatima@solarisenergy.ae,Stalled,13200,2026-02-01,Levi R.,Google,Renewable Energy,Delayed due to regulatory approval; revisit May
+QuickPrint IO,Nadia Petrova,nadia@quickprintio.com,Active,12400,2026-03-24,Sasha B.,Behance,Print/Media,Custom dashboard integration requested
+BrightPath Academy,Michael Torres,michael@brightpathacademy.org,Active,11200,2026-03-17,Sasha B.,Instagram,Education,Non-profit pricing tier discussion
+Zenith Robotics,Kenji Watanabe,kenji@zenithrobotics.jp,Closed Lost,9800,2026-02-20,Eren Y.,Dribbble,Robotics,Lost to competitor on pricing; maintain relationship
+Coral Bay Ventures,Olivia Chang,olivia@coralventures.com,New,8900,2026-03-23,Mikasa A.,LinkedIn,Venture Capital,Early stage interest; needs product demo
+Aether Cloud,Samuel Mensah,samuel@aethercloud.io,Active,23176.82,2026-03-12,Sasha B.,Google,Cloud Services,Multi-tenant deployment; technical scoping underway
+Vertex Marketing,Elena Popov,elena@vertexmarketing.eu,Closed Won,19300,2026-03-05,Eren Y.,Behance,Marketing,Signed for annual analytics package
+Polaris Shipping,Andreas Holm,andreas@polarisshipping.dk,Stalled,16500,2025-12-28,Levi R.,LinkedIn,Maritime,Contract review stalled at procurement; CFO change
+Nimbus Software,Rachel Kim,rachel@nimbussoftware.kr,Active,16450,2026-03-14,Mikasa A.,Dribbble,Software,Enterprise license negotiation; legal redlining
+Atlas Consulting,George Papadopoulos,george@atlasconsulting.gr,Closed Lost,9200,2026-01-30,Sasha B.,Instagram,Consulting,Went with in-house solution; keep warm for Q4
+Ember Creative,Zara Nkosi,zara@embercreative.co.za,New,12600,2026-03-27,Levi R.,Behance,Creative Agency,Referred by Vektor Design; scheduling discovery call

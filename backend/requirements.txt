@@ -1,0 +1,10 @@
+fastapi==0.115.6
+uvicorn==0.34.0
+python-dotenv==1.0.1
+anthropic==0.43.0
+pinecone==5.4.2
+cohere==5.13.3
+python-multipart==0.0.20
+gspread==6.1.4
+google-auth==2.37.0
+pandas==2.2.3
