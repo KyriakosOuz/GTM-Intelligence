@@ -63,3 +63,11 @@ async def query_similar(query: str, top_k: int = 5) -> list[dict]:
         {**match.metadata, "_score": match.score}
         for match in results.matches
     ]
+
+
+async def delete_all_vectors() -> int:
+    _init()
+    stats = index.describe_index_stats()
+    total = stats.total_vector_count
+    index.delete(delete_all=True)
+    return total

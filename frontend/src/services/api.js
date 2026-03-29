@@ -5,9 +5,9 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
-export async function sendChatMessage(message) {
+export async function sendChatMessage(message, history = []) {
   try {
-    const { data } = await api.post('/chat', { message })
+    const { data } = await api.post('/chat', { message, history })
     return data
   } catch (error) {
     return { success: false, data: null, error: error.response?.data?.error || error.message }
@@ -66,6 +66,42 @@ export async function getReport() {
 export async function healthCheck() {
   try {
     const { data } = await api.get('/health')
+    return data
+  } catch (error) {
+    return { success: false, data: null, error: error.response?.data?.error || error.message }
+  }
+}
+
+export async function getLeads() {
+  try {
+    const { data } = await api.get('/leads')
+    return data
+  } catch (error) {
+    return { success: false, data: null, error: error.response?.data?.error || error.message }
+  }
+}
+
+export async function getTeam() {
+  try {
+    const { data } = await api.get('/team')
+    return data
+  } catch (error) {
+    return { success: false, data: null, error: error.response?.data?.error || error.message }
+  }
+}
+
+export async function getStats() {
+  try {
+    const { data } = await api.get('/stats')
+    return data
+  } catch (error) {
+    return { success: false, data: null, error: error.response?.data?.error || error.message }
+  }
+}
+
+export async function clearLeads() {
+  try {
+    const { data } = await api.post('/leads/clear', { confirm: true })
     return data
   } catch (error) {
     return { success: false, data: null, error: error.response?.data?.error || error.message }

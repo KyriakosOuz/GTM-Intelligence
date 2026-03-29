@@ -1,4 +1,8 @@
+import { useNavigate } from 'react-router-dom'
+
 export default function NavPanel() {
+  const navigate = useNavigate()
+
   return (
     <aside className="fixed left-[72px] top-0 h-full w-[200px] bg-surface-container-low border-r border-zinc-100 py-8 px-6 z-40">
       <div className="mb-10">
@@ -20,7 +24,10 @@ export default function NavPanel() {
         </ul>
       </div>
       <div className="absolute bottom-8 left-0 w-full px-6">
-        <button className="w-full bg-crimson text-white py-3 rounded-xl font-bold text-xs shadow-lg shadow-rose-500/20 transition-all hover:scale-[1.02] active:scale-95">
+        <button
+          className="w-full bg-crimson text-white py-3 rounded-xl font-bold text-xs shadow-lg shadow-rose-500/20 transition-all hover:scale-[1.02] active:scale-95"
+          onClick={() => navigate('/reports')}
+        >
           New Report
         </button>
       </div>
