@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getTeam } from '../services/api'
+import { getTeam, getLeads } from '../services/api'
 
 const REP_STYLES = [
   { bg: 'bg-rose-50', text: 'text-crimson', border: 'border-crimson/20' },
@@ -8,6 +8,14 @@ const REP_STYLES = [
   { bg: 'bg-emerald-50', text: 'text-emerald-600', border: 'border-emerald-200' },
   { bg: 'bg-amber-50', text: 'text-amber-600', border: 'border-amber-200' },
 ]
+
+const STATUS_COLORS = {
+  Active: 'bg-emerald-50 text-emerald-600',
+  Stalled: 'bg-amber-50 text-amber-600',
+  'Closed Won': 'bg-blue-50 text-blue-600',
+  'Closed Lost': 'bg-red-50 text-red-600',
+  New: 'bg-zinc-100 text-zinc-600',
+}
 
 const BADGES = {
   'Armin A.': '\u{1F947}\u{1F525}',
@@ -21,6 +29,8 @@ export default function Network() {
   const [team, setTeam] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [contacts, setContacts] = useState([])
+  const [contactsLoading, setContactsLoading] = useState(true)
 
   useEffect(() => {
     async function fetchTeam() {
@@ -33,7 +43,16 @@ export default function Network() {
       }
       setLoading(false)
     }
+    async function fetchContacts() {
+      setContactsLoading(true)
+      const res = await getLeads()
+      if (res.success) {
+        setContacts(res.data)
+      }
+      setContactsLoading(false)
+    }
     fetchTeam()
+    fetchContacts()
   }, [])
 
   if (loading) {
@@ -136,6 +155,65 @@ export default function Network() {
             </div>
           )
         })}
+      </div>
+
+      {/* All Contacts */}
+      <div className="bg-white rounded-2xl card-shadow">
+        <div className="p-6 border-b border-zinc-50">
+          <h2 className="section-label">All Contacts</h2>
+          {!contactsLoading && (
+            <p className="text-xs text-zinc-400 mt-1">{contacts.length} records</p>
+          )}
+        </div>
+
+        {contactsLoading ? (
+          <div className="p-6 space-y-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="h-10 bg-zinc-100 rounded-lg animate-pulse" />
+            ))}
+          </div>
+        ) : contacts.length === 0 ? (
+          <div className="p-12 text-center">
+            <span className="material-symbols-outlined text-4xl text-zinc-300 mb-2">contacts</span>
+            <p className="text-sm text-zinc-400">No contacts found</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-zinc-50">
+                  <th className="px-6 py-4 section-label">Company</th>
+                  <th className="px-6 py-4 section-label">Contact</th>
+                  <th className="px-6 py-4 section-label">Owner</th>
+                  <th className="px-6 py-4 section-label">Status</th>
+                  <th className="px-6 py-4 section-label">Deal Value</th>
+                  <th className="px-6 py-4 section-label">Last Contact</th>
+                </tr>
+              </thead>
+              <tbody>
+                {contacts.map((lead, i) => (
+                  <tr
+                    key={lead.company + lead.contact + i}
+                    className="border-t border-zinc-50 hover:bg-zinc-50/50 transition-colors"
+                  >
+                    <td className="px-6 py-4 text-sm font-bold text-zinc-900">{lead.company}</td>
+                    <td className="px-6 py-4 text-sm text-zinc-600">{lead.contact}</td>
+                    <td className="px-6 py-4 text-sm text-zinc-600">{lead.owner}</td>
+                    <td className="px-6 py-4">
+                      <span className={`px-2.5 py-1 text-[10px] font-bold rounded-full ${STATUS_COLORS[lead.status] || 'bg-zinc-100 text-zinc-500'}`}>
+                        {lead.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-sm font-semibold text-zinc-900">
+                      ${parseFloat(lead.deal_value || 0).toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-zinc-500">{lead.last_contact}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   )

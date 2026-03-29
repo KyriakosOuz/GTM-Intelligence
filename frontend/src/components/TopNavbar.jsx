@@ -1,4 +1,28 @@
-export default function TopNavbar({ pageTitle }) {
+import { useState, useCallback } from 'react'
+
+export default function TopNavbar({ pageTitle, onExport }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleShare = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Fallback for older browsers / insecure contexts
+      const textarea = document.createElement('textarea')
+      textarea.value = window.location.href
+      textarea.style.position = 'fixed'
+      textarea.style.opacity = '0'
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }, [])
+
   return (
     <header className="flex justify-between items-center w-full px-8 py-6 sticky top-0 z-20 bg-background/80 backdrop-blur-md">
       <div className="flex items-center gap-4 flex-1">
@@ -28,8 +52,19 @@ export default function TopNavbar({ pageTitle }) {
           <button className="p-2 text-zinc-500 hover:bg-zinc-100 rounded-lg transition-colors">
             <span className="material-symbols-outlined">filter_list</span>
           </button>
-          <button className="px-4 py-1.5 text-sm font-semibold text-zinc-600 hover:bg-zinc-100 rounded-lg transition-colors">Export</button>
-          <button className="px-5 py-1.5 text-sm font-bold bg-zinc-900 text-white rounded-lg transition-all hover:bg-zinc-800">Share</button>
+          <button
+            className="px-4 py-1.5 text-sm font-semibold text-zinc-600 hover:bg-zinc-100 rounded-lg transition-colors"
+            onClick={onExport}
+          >
+            Export
+          </button>
+          <button
+            className="px-5 py-1.5 text-sm font-bold rounded-lg transition-all relative"
+            onClick={handleShare}
+            style={copied ? { background: '#16a34a', color: '#fff' } : { background: '#18181b', color: '#fff' }}
+          >
+            {copied ? 'Copied!' : 'Share'}
+          </button>
         </div>
       </div>
     </header>
