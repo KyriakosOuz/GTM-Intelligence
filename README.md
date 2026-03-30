@@ -19,7 +19,7 @@
 <div align="center">
 <img src="frontend/public/dashboard-preview.png" alt="GTM Intelligence Dashboard" width="800" />
 <br />
-<sub>Live dashboard with AI chat assistant pinned at bottom</sub>
+<sub>Live dashboard with KPI cards, pipeline velocity, source breakdown, and AI chat assistant</sub>
 </div>
 
 ---
@@ -37,7 +37,7 @@ GTM Intelligence turns your CRM data into a conversational AI experience. Instea
 ## Key Features
 
 ### AI Chat Assistant
-A conversational interface pinned at the bottom of the dashboard. Ask natural language questions like:
+A conversational interface accessible from every page. Ask natural language questions like:
 - *"Which leads haven't been contacted in 30 days?"*
 - *"Who is our top performer this month?"*
 - *"Summarize the pipeline from Dribbble leads"*
@@ -45,17 +45,36 @@ A conversational interface pinned at the bottom of the dashboard. Ask natural la
 
 The assistant automatically detects broad vs. specific queries and adjusts how much data it retrieves to give accurate answers.
 
-### Visual Pipeline Dashboard
-Seven KPI cards, source breakdown charts, team leaderboard, pipeline velocity by rep, sales trend lines — all in a single view designed with the **Crimson Catalyst** design system.
+### 6-Page Dashboard Suite
+A full multi-page application with persistent navigation:
 
-### One-Click Reports
-Hit the `/report` endpoint and get a full markdown pipeline report with Executive Summary, Top Deals, Risk Areas, and Recommendations — all generated from your live data.
+| Page | What It Shows |
+|------|---------------|
+| **Dashboard** | KPI cards, pipeline velocity by rep, source breakdown, deals chart, AI insights |
+| **Deals** | Sortable, filterable CRM data table with all pipeline records |
+| **Intelligence** | Full-page AI chat for deep pipeline analysis |
+| **Network** | Team performance cards with per-rep metrics |
+| **Reports** | AI-generated pipeline reports with export/share |
+| **Settings** | CSV upload, Google Sheets sync, automation controls |
+
+### Daily Automation System
+Fully automated morning reports — zero manual work:
+- **Email Reports** — AI-generated HTML pipeline report delivered to your inbox every morning at 9 AM
+- **Slack Alerts** — Stalled deal notifications posted to your Slack channel automatically
+- **Manual Trigger** — Run the full automation cycle on-demand from the Settings page
+- **Scheduler** — Background daemon thread with configurable schedule
+
+### One-Click AI Reports
+Generate a full markdown pipeline report with Executive Summary, Top Deals, Risk Areas, and Recommendations — all written by Claude from your live data. Export or share reports directly from the Reports page.
 
 ### AI-Generated Insights
-The `/insights` endpoint analyzes your full pipeline and returns 4 actionable insights without you asking a specific question.
+The dashboard automatically analyzes your full pipeline and surfaces 4 actionable insights without you asking a specific question.
 
 ### Google Sheets Sync
 Connect a Google Sheet as your CRM source. New records sync into the vector database automatically.
+
+### Dynamic Navigation Tree
+Collapsible sidebar with quick access to Reports, Shared items, and My Reports — persistent across all pages.
 
 ---
 
@@ -64,9 +83,9 @@ Connect a Google Sheet as your CRM source. New records sync into the vector data
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                    React Frontend                       │
-│         Tailwind CSS  ·  Recharts  ·  Vite              │
+│      Tailwind CSS  ·  Recharts  ·  Vite  ·  6 Pages    │
 └──────────────────────┬──────────────────────────────────┘
-                       │ REST API
+                       │ REST API (12 endpoints)
 ┌──────────────────────▼──────────────────────────────────┐
 │                  FastAPI Backend                         │
 │                                                         │
@@ -75,18 +94,23 @@ Connect a Google Sheet as your CRM source. New records sync into the vector data
 │  POST /sync ──────► Google Sheets ──► Embed ──► Upsert  │
 │  GET  /insights ──► Full Pipeline ──► Claude Analysis    │
 │  GET  /report ────► Full Pipeline ──► Claude Report      │
+│  GET  /leads ─────► All CRM Records                     │
+│  GET  /team ──────► Team Stats by Rep                   │
+│  GET  /stats ─────► Aggregated Pipeline Stats           │
+│  POST /automation/trigger ──► Run Daily Cycle Now       │
+│  GET  /automation/status ──► Scheduler Status           │
 │  GET  /health                                           │
-└────────┬───────────────────┬────────────────────────────┘
-         │                   │
-    ┌────▼────┐       ┌──────▼──────┐
-    │Pinecone │       │  Claude API │
-    │(Vectors)│       │ (Sonnet 4)  │
-    └─────────┘       └─────────────┘
-         ▲
-    ┌────┴────┐
-    │ Cohere  │
-    │(Embeds) │
-    └─────────┘
+└────────┬──────────┬──────────┬─────────────────────────┘
+         │          │          │
+    ┌────▼────┐ ┌───▼────┐ ┌──▼──────────┐
+    │Pinecone │ │ Claude │ │  Scheduler  │
+    │(Vectors)│ │  API   │ │  (Daemon)   │
+    └─────────┘ └────────┘ └──┬──────┬───┘
+         ▲                    │      │
+    ┌────┴────┐         ┌────▼──┐ ┌─▼────┐
+    │ Cohere  │         │ Gmail │ │Slack │
+    │(Embeds) │         │ SMTP  │ │Hooks │
+    └─────────┘         └───────┘ └──────┘
 ```
 
 ### How RAG Works Here
@@ -106,7 +130,11 @@ Connect a Google Sheet as your CRM source. New records sync into the vector data
 | **AI Model** | Claude Sonnet 4 | Best-in-class reasoning for data analysis |
 | **Vector DB** | Pinecone | Managed vector search, free tier available |
 | **Embeddings** | Cohere `embed-english-v3.0` | Free tier, 1024 dimensions, high quality |
+| **Email** | Gmail SMTP | Automated HTML report delivery |
+| **Alerts** | Slack Incoming Webhooks | Stalled deal notifications |
+| **Scheduler** | Python `schedule` | Background daemon for daily automation |
 | **Sheets Sync** | gspread + Google Auth | Direct Google Sheets integration |
+| **Deployment** | Vercel (frontend) + Cloud Run (backend) | Production-ready hosting |
 
 ---
 
@@ -139,6 +167,12 @@ ANTHROPIC_API_KEY=sk-ant-...
 PINECONE_API_KEY=pcsk_...
 PINECONE_INDEX_NAME=gtm-intelligence
 COHERE_API_KEY=...
+GMAIL_ADDRESS=your@gmail.com
+GMAIL_APP_PASSWORD=...
+REPORT_EMAIL_TO=recipient@example.com
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/...
+REPORT_HOUR=9
+REPORT_MINUTE=0
 ```
 
 ```bash
@@ -163,7 +197,7 @@ curl -X POST http://localhost:8000/upload \
 
 ```bash
 # Terminal 1 — Backend
-cd backend && uvicorn main:app --port 8000
+cd backend && uvicorn main:app --reload --port 8000
 
 # Terminal 2 — Frontend
 cd frontend && npm run dev
@@ -184,6 +218,11 @@ Open **http://localhost:5173** and start asking questions.
 | `GET` | `/sync/status` | Last sync timestamp |
 | `GET` | `/insights` | 4 AI-generated pipeline insights |
 | `GET` | `/report` | Full AI-written pipeline report (markdown) |
+| `GET` | `/leads` | All CRM records from Pinecone |
+| `GET` | `/team` | Team performance stats by rep |
+| `GET` | `/stats` | Aggregated pipeline statistics |
+| `POST` | `/automation/trigger` | Manually run the daily automation cycle |
+| `GET` | `/automation/status` | Scheduler status and next scheduled run |
 
 All endpoints return: `{ "success": bool, "data": any, "error": string | null }`
 
@@ -195,18 +234,23 @@ All endpoints return: `{ "success": bool, "data": any, "error": string | null }`
 GTM-Intelligence/
 ├── frontend/
 │   ├── src/
-│   │   ├── components/     # 11 dashboard components
+│   │   ├── components/     # Dashboard components
+│   │   ├── pages/          # Dashboard, Deals, Intelligence,
+│   │   │                   # Network, Reports, Settings
 │   │   ├── hooks/          # useChat.js — chat state management
 │   │   ├── services/       # api.js — all API calls
-│   │   └── App.jsx         # Main layout
+│   │   └── App.jsx         # Router + layout
 │   └── .env
 ├── backend/
-│   ├── main.py             # FastAPI entry + CORS
-│   ├── routers/            # chat, upload, sync, insights, report
-│   ├── services/           # pinecone, claude, sheets
+│   ├── main.py             # FastAPI entry + CORS + scheduler
+│   ├── scheduler.py        # Daily automation scheduler
+│   ├── routers/            # chat, upload, sync, insights, report,
+│   │                       # leads, team, stats, automation
+│   ├── services/           # pinecone, claude, sheets, email, slack
 │   └── .env
 └── data/
-    └── demo_crm.csv        # 26 realistic B2B records
+    ├── demo_crm.csv        # 26 realistic B2B records
+    └── test_*.csv           # Industry-specific test datasets
 ```
 
 ---
@@ -216,6 +260,7 @@ GTM-Intelligence/
 The app ships with 26 realistic B2B CRM records for demo purposes:
 
 - **Pipeline value:** $528,976.82
+- **Top deal:** $42,300 (Rolf Inc.)
 - **Sales reps:** Armin A., Eren Y., Mikasa A., Levi R., Sasha B.
 - **Statuses:** Active, Stalled, Closed Won, Closed Lost, New
 - **Sources:** Dribbble, Instagram, Behance, Google, LinkedIn

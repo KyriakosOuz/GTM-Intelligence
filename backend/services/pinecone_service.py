@@ -63,3 +63,29 @@ async def query_similar(query: str, top_k: int = 5) -> list[dict]:
         {**match.metadata, "_score": match.score}
         for match in results.matches
     ]
+
+
+def get_all_records(limit: int = 100) -> list[dict]:
+    """Fetch all records from Pinecone."""
+    _init()
+    try:
+        # Query with a neutral vector to get all records
+        dummy_vector = [0.0] * 1024
+        results = index.query(
+            vector=dummy_vector,
+            top_k=limit,
+            include_metadata=True
+        )
+        return [match.metadata for match in results.matches
+                if match.metadata]
+    except Exception as e:
+        print(f"[Pinecone] Error fetching all records: {e}")
+        return []
+
+
+async def delete_all_vectors() -> int:
+    _init()
+    stats = index.describe_index_stats()
+    total = stats.total_vector_count
+    index.delete(delete_all=True)
+    return total
