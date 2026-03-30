@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 48" fill="none">
+  <!-- Icon -->
+  <rect x="0" y="4" width="40" height="40" rx="10" fill="#E8175D"/>
+  <g stroke="#fff" stroke-width="1.6" stroke-linecap="round">
+    <!-- Hexagonal network nodes -->
+    <circle cx="20" cy="14" r="2.2" fill="#fff"/>
+    <circle cx="12" cy="22" r="2.2" fill="#fff"/>
+    <circle cx="28" cy="22" r="2.2" fill="#fff"/>
+    <circle cx="14" cy="32" r="2.2" fill="#fff"/>
+    <circle cx="26" cy="32" r="2.2" fill="#fff"/>
+    <circle cx="20" cy="26" r="1.8" fill="#fff"/>
+    <!-- Connection lines -->
+    <line x1="20" y1="16.2" x2="20" y2="24.2"/>
+    <line x1="14.2" y1="22" x2="18.2" y2="25.2"/>
+    <line x1="25.8" y1="22" x2="21.8" y2="25.2"/>
+    <line x1="20" y1="14" x2="12" y2="22"/>
+    <line x1="20" y1="14" x2="28" y2="22"/>
+    <line x1="12" y1="22" x2="14" y2="32"/>
+    <line x1="28" y1="22" x2="26" y2="32"/>
+    <line x1="14" y1="32" x2="26" y2="32"/>
+  </g>
+  <!-- Text -->
+  <text x="48" y="22" font-family="Manrope, sans-serif" font-weight="800" font-size="14" fill="#1a1a2e">GTM Intelligence</text>
+  <text x="48" y="36" font-family="Inter, sans-serif" font-weight="700" font-size="7" fill="#a1a1aa" letter-spacing="2.5">THE CRIMSON CATALYST</text>
+</svg>

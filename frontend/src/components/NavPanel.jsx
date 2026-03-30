@@ -12,8 +12,7 @@ export default function NavPanel() {
   return (
     <aside className="fixed left-[72px] top-0 h-full w-[200px] bg-surface-container-low border-r border-zinc-100 py-8 px-6 z-40">
       <div className="mb-10">
-        <h1 className="text-sm font-headline font-bold text-zinc-900 leading-tight">GTM Intelligence</h1>
-        <p className="text-[9px] font-bold text-zinc-400 mt-0.5 uppercase tracking-widest">The Crimson Catalyst</p>
+        <img src="/logo.svg" alt="GTM Intelligence" className="w-[160px]" />
       </div>
       <div>
         <h3 className="section-label mb-4">Nav Tree</h3>
