@@ -134,7 +134,7 @@ Collapsible sidebar with quick access to Reports, Shared items, and My Reports â
 | **Alerts** | Slack Incoming Webhooks | Stalled deal notifications |
 | **Scheduler** | Python `schedule` | Background daemon for daily automation |
 | **Sheets Sync** | gspread + Google Auth | Direct Google Sheets integration |
-| **Deployment** | Vercel (frontend) + Cloud Run (backend) | Production-ready hosting |
+| **Deployment** | Vercel (frontend) + Railway (backend) | Production-ready hosting |
 
 ---
 
@@ -281,6 +281,16 @@ The app ships with 26 realistic B2B CRM records for demo purposes:
 | Border Radius | 16px |
 
 The UI was designed in Google Stitch and follows an editorial, data-dense aesthetic inspired by Linear â€” crimson accents against expansive white space.
+
+---
+
+## Live Demo
+
+| Service | URL |
+|---------|-----|
+| **Frontend** | [frontend-seven-ecru-39.vercel.app](https://frontend-seven-ecru-39.vercel.app) |
+| **Backend** | [gtm-intelligence-production-f51e.up.railway.app](https://gtm-intelligence-production-f51e.up.railway.app) |
+| **API Docs** | [gtm-intelligence-production-f51e.up.railway.app/docs](https://gtm-intelligence-production-f51e.up.railway.app/docs) |
 
 ---
 
