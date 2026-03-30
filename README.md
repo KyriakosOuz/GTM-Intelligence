@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="frontend/public/favicon.svg" alt="GTM Intelligence Logo" width="64" />
+
 # GTM Intelligence
 
 ### The AI-Powered CRM Dashboard for B2B Sales Teams
@@ -19,7 +21,7 @@
 <div align="center">
 <img src="frontend/public/dashboard-preview.png" alt="GTM Intelligence Dashboard" width="800" />
 <br />
-<sub>Live dashboard with KPI cards, pipeline velocity, source breakdown, and AI chat assistant</sub>
+<sub>Live dashboard with KPI cards, pipeline velocity, AI insights, and chat assistant</sub>
 </div>
 
 ---
