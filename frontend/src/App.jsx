@@ -7,6 +7,7 @@ import Deals from './pages/Deals'
 import Intelligence from './pages/Intelligence'
 import Network from './pages/Network'
 import Reports from './pages/Reports'
+import MyReports from './pages/MyReports'
 import Settings from './pages/Settings'
 
 const PAGE_TITLES = {
@@ -15,6 +16,7 @@ const PAGE_TITLES = {
   '/intelligence': 'Intelligence',
   '/network': 'Network',
   '/reports': 'Reports',
+  '/my-reports': 'My Reports',
   '/settings': 'Settings',
 }
 
@@ -34,6 +36,7 @@ function AppLayout() {
           <Route path="/intelligence" element={<Intelligence />} />
           <Route path="/network" element={<Network />} />
           <Route path="/reports" element={<Reports />} />
+          <Route path="/my-reports" element={<MyReports />} />
           <Route path="/settings" element={<Settings />} />
         </Routes>
       </main>

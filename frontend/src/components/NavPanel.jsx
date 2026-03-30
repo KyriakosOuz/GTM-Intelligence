@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 const navItems = [
   { to: '/reports', label: 'Reports', icon: 'folder_open' },
   { to: '/deals', label: 'Shared with me', icon: 'share' },
-  { to: '/reports', label: 'My Reports', icon: 'description' },
+  { to: '/my-reports', label: 'My Reports', icon: 'description' },
 ]
 
 export default function NavPanel() {

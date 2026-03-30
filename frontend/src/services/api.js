@@ -107,3 +107,21 @@ export async function clearLeads() {
     return { success: false, data: null, error: error.response?.data?.error || error.message }
   }
 }
+
+export async function triggerAutomation() {
+  try {
+    const { data } = await api.post('/automation/trigger')
+    return data
+  } catch (error) {
+    return { success: false, data: null, error: error.response?.data?.error || error.message }
+  }
+}
+
+export async function getAutomationStatus() {
+  try {
+    const { data } = await api.get('/automation/status')
+    return data
+  } catch (error) {
+    return { success: false, data: null, error: error.response?.data?.error || error.message }
+  }
+}

@@ -1,6 +1,30 @@
 import { useState } from 'react'
 import { getReport } from '../services/api'
 
+function saveReportToStorage(report, generatedAt) {
+  const saved = JSON.parse(localStorage.getItem('gtm_reports') || '[]')
+  saved.unshift({
+    id: Date.now(),
+    content: report,
+    generatedAt,
+  })
+  // Keep max 20 reports
+  if (saved.length > 20) saved.length = 20
+  localStorage.setItem('gtm_reports', JSON.stringify(saved))
+}
+
+const renderMarkdown = (text) => {
+  return text
+    .replace(/^### (.+)$/gm, '<h3 class="text-base font-bold text-zinc-900 mt-6 mb-2">$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2 class="text-lg font-bold font-headline text-zinc-900 mt-8 mb-3 pb-2 border-b border-zinc-100">$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1 class="text-xl font-bold font-headline text-zinc-900 mt-8 mb-4">$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold">$1</strong>')
+    .replace(/^\- (.+)$/gm, '<li class="ml-4 text-sm text-zinc-600 mb-1 list-disc">$1</li>')
+    .replace(/^\d+\. (.+)$/gm, '<li class="ml-4 text-sm text-zinc-600 mb-1 list-decimal">$1</li>')
+    .replace(/\n\n/g, '</p><p class="text-sm text-zinc-600 mb-3">')
+    .replace(/^(?!<[hl])/gm, '')
+}
+
 export default function Reports() {
   const [report, setReport] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -13,8 +37,10 @@ export default function Reports() {
     setError(null)
     const res = await getReport()
     if (res.success) {
+      const timestamp = new Date().toLocaleString()
       setReport(res.data)
-      setGeneratedAt(new Date().toLocaleString())
+      setGeneratedAt(timestamp)
+      saveReportToStorage(res.data, timestamp)
     } else {
       setError(res.error)
     }
@@ -38,18 +64,6 @@ export default function Reports() {
     a.download = `gtm-pipeline-report-${new Date().toISOString().slice(0, 10)}.txt`
     a.click()
     URL.revokeObjectURL(url)
-  }
-
-  const renderMarkdown = (text) => {
-    return text
-      .replace(/^### (.+)$/gm, '<h3 class="text-base font-bold text-zinc-900 mt-6 mb-2">$1</h3>')
-      .replace(/^## (.+)$/gm, '<h2 class="text-lg font-bold font-headline text-zinc-900 mt-8 mb-3 pb-2 border-b border-zinc-100">$1</h2>')
-      .replace(/^# (.+)$/gm, '<h1 class="text-xl font-bold font-headline text-zinc-900 mt-8 mb-4">$1</h1>')
-      .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold">$1</strong>')
-      .replace(/^\- (.+)$/gm, '<li class="ml-4 text-sm text-zinc-600 mb-1 list-disc">$1</li>')
-      .replace(/^\d+\. (.+)$/gm, '<li class="ml-4 text-sm text-zinc-600 mb-1 list-decimal">$1</li>')
-      .replace(/\n\n/g, '</p><p class="text-sm text-zinc-600 mb-3">')
-      .replace(/^(?!<[hl])/gm, '')
   }
 
   return (
@@ -135,3 +149,5 @@ export default function Reports() {
     </div>
   )
 }
+
+export { renderMarkdown }

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { uploadCSV, syncGoogleSheet, getSyncStatus, healthCheck, clearLeads } from '../services/api'
+import { uploadCSV, syncGoogleSheet, getSyncStatus, healthCheck, clearLeads, triggerAutomation, getAutomationStatus } from '../services/api'
 
 export default function Settings() {
   const [uploadState, setUploadState] = useState('idle') // idle, dragging, uploading, success, error
@@ -11,11 +11,15 @@ export default function Settings() {
   const [backendStatus, setBackendStatus] = useState(null)
   const [showClearConfirm, setShowClearConfirm] = useState(false)
   const [clearing, setClearing] = useState(false)
+  const [automationStatus, setAutomationStatus] = useState(null)
+  const [triggering, setTriggering] = useState(false)
+  const [triggerResult, setTriggerResult] = useState(null)
   const fileRef = useRef()
 
   useEffect(() => {
     checkHealth()
     fetchSyncStatus()
+    fetchAutomationStatus()
   }, [])
 
   const checkHealth = async () => {
@@ -68,6 +72,24 @@ export default function Settings() {
     await clearLeads()
     setClearing(false)
     setShowClearConfirm(false)
+  }
+
+  const fetchAutomationStatus = async () => {
+    const res = await getAutomationStatus()
+    if (res.success) setAutomationStatus(res.data)
+  }
+
+  const handleTrigger = async () => {
+    setTriggering(true)
+    setTriggerResult(null)
+    const res = await triggerAutomation()
+    setTriggering(false)
+    if (res.success) {
+      setTriggerResult('success')
+      setTimeout(() => setTriggerResult(null), 10000)
+    } else {
+      setTriggerResult('error')
+    }
   }
 
   return (
@@ -208,6 +230,67 @@ export default function Settings() {
                 Cancel
               </button>
             </div>
+          )}
+        </div>
+      </div>
+
+      {/* Daily Automation */}
+      <div className="bg-white rounded-2xl card-shadow p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="section-label">Daily Automation</h3>
+          <div className="flex items-center gap-2">
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+            <span className="text-xs font-semibold text-emerald-600">Scheduler Active</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="p-4 bg-zinc-50 rounded-xl">
+            <p className="text-xs text-zinc-400 mb-1">Schedule</p>
+            <p className="text-sm font-semibold text-zinc-900">
+              {automationStatus?.schedule || 'Daily at 09:00'}
+            </p>
+          </div>
+          <div className="p-4 bg-zinc-50 rounded-xl">
+            <p className="text-xs text-zinc-400 mb-1">Next Run</p>
+            <p className="text-sm font-semibold text-zinc-900">
+              {automationStatus?.next_run
+                ? new Date(automationStatus.next_run).toLocaleString()
+                : 'Loading...'}
+            </p>
+          </div>
+          <div className="p-4 bg-zinc-50 rounded-xl">
+            <p className="text-xs text-zinc-400 mb-1">Email To</p>
+            <p className="text-sm font-semibold text-zinc-900">kyriakos.ouzounis@gmail.com</p>
+          </div>
+          <div className="p-4 bg-zinc-50 rounded-xl">
+            <p className="text-xs text-zinc-400 mb-1">Slack Alert</p>
+            <p className="text-sm font-semibold text-zinc-900">Stalled deals channel</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <button
+            className="px-6 py-2.5 text-sm font-bold bg-crimson text-white rounded-xl hover:bg-crimson/90 transition-colors disabled:opacity-50"
+            onClick={handleTrigger}
+            disabled={triggering}
+          >
+            {triggering ? (
+              <span className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
+                Running...
+              </span>
+            ) : 'Run Now'}
+          </button>
+
+          {triggerResult === 'success' && (
+            <span className="text-sm text-emerald-600 font-medium flex items-center gap-1">
+              <span className="material-symbols-outlined text-lg">check_circle</span>
+              Triggered! Check email and Slack in ~30s
+            </span>
+          )}
+          {triggerResult === 'error' && (
+            <span className="text-sm text-red-500 font-medium">Failed to trigger automation</span>
           )}
         </div>
       </div>

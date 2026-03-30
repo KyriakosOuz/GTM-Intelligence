@@ -10,13 +10,21 @@ const SUGGESTIONS = [
 ]
 
 export default function Intelligence() {
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('gtm_chat_history') || '[]')
+    } catch { return [] }
+  })
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef(null)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  useEffect(() => {
+    localStorage.setItem('gtm_chat_history', JSON.stringify(messages))
   }, [messages])
 
   const handleSend = async (text) => {
@@ -60,7 +68,7 @@ export default function Intelligence() {
         {messages.length > 0 && (
           <button
             className="px-4 py-1.5 text-sm font-semibold text-zinc-500 hover:text-zinc-700 hover:bg-zinc-100 rounded-lg transition-colors"
-            onClick={() => setMessages([])}
+            onClick={() => { setMessages([]); localStorage.removeItem('gtm_chat_history') }}
           >
             Clear conversation
           </button>
