@@ -19,7 +19,7 @@
 ---
 
 <div align="center">
-<img src="frontend/public/dashboard-preview.png" alt="GTM Intelligence Dashboard" width="800" />
+<img src="frontend/public/dashboard-preview-v2.png" alt="GTM Intelligence Dashboard" width="800" />
 <br />
 <sub>Live dashboard with KPI cards, pipeline velocity, AI insights, and chat assistant</sub>
 </div>
