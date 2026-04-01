@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="frontend/public/favicon.svg" alt="GTM Intelligence Logo" width="64" />
+<a href="https://frontend-seven-ecru-39.vercel.app" target="_blank"><img src="frontend/public/favicon.svg" alt="GTM Intelligence Logo" width="64" /></a>
 
 # GTM Intelligence
 
@@ -19,7 +19,7 @@
 ---
 
 <div align="center">
-<img src="frontend/public/dashboard-preview-v2.png" alt="GTM Intelligence Dashboard" width="800" />
+<a href="https://frontend-seven-ecru-39.vercel.app" target="_blank"><img src="frontend/public/dashboard-preview-v2.png" alt="GTM Intelligence Dashboard" width="800" /></a>
 <br />
 <sub>Live dashboard with KPI cards, pipeline velocity, AI insights, and chat assistant</sub>
 </div>
@@ -132,7 +132,7 @@ Collapsible sidebar with quick access to Reports, Shared items, and My Reports â
 | **AI Model** | Claude Sonnet 4 | Best-in-class reasoning for data analysis |
 | **Vector DB** | Pinecone | Managed vector search, free tier available |
 | **Embeddings** | Cohere `embed-english-v3.0` | Free tier, 1024 dimensions, high quality |
-| **Email** | Gmail SMTP | Automated HTML report delivery |
+| **Email** | Resend API | Automated HTML report delivery |
 | **Alerts** | Slack Incoming Webhooks | Stalled deal notifications |
 | **Scheduler** | Python `schedule` | Background daemon for daily automation |
 | **Sheets Sync** | gspread + Google Auth | Direct Google Sheets integration |
