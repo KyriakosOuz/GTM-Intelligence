@@ -10,3 +10,4 @@ google-auth==2.37.0
 pandas==2.2.3
 schedule==1.2.1
 requests==2.31.0
+resend==2.26.0

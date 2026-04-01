@@ -1,39 +1,30 @@
-import smtplib
+import resend
 import os
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from datetime import datetime
 
 
 def send_email(subject: str, body_html: str, body_text: str = None):
-    """Send email via Gmail SMTP."""
-    gmail_address = os.getenv("GMAIL_ADDRESS")
-    gmail_password = os.getenv("GMAIL_APP_PASSWORD")
+    """Send email via Resend API."""
+    resend.api_key = os.getenv("RESEND_API_KEY")
     recipient = os.getenv("REPORT_EMAIL_TO")
+    from_address = os.getenv("RESEND_FROM", "GTM Intelligence <onboarding@resend.dev>")
 
-    if not all([gmail_address, gmail_password, recipient]):
-        print("[Email] Missing email credentials in .env")
+    if not all([resend.api_key, recipient]):
+        print("[Email] Missing RESEND_API_KEY or REPORT_EMAIL_TO in .env")
         return False
 
     try:
-        msg = MIMEMultipart("alternative")
-        msg["Subject"] = subject
-        msg["From"] = f"GTM Intelligence <{gmail_address}>"
-        msg["To"] = recipient
-
-        # Plain text fallback
+        params = {
+            "from": from_address,
+            "to": [recipient],
+            "subject": subject,
+            "html": body_html,
+        }
         if body_text:
-            msg.attach(MIMEText(body_text, "plain"))
+            params["text"] = body_text
 
-        # HTML version
-        msg.attach(MIMEText(body_html, "html"))
-
-        # Connect and send
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(gmail_address, gmail_password)
-            server.sendmail(gmail_address, recipient, msg.as_string())
-
-        print(f"[Email] Sent successfully to {recipient}")
+        r = resend.Emails.send(params)
+        print(f"[Email] Sent successfully to {recipient} (id: {r['id']})")
         return True
 
     except Exception as e:
