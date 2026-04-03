@@ -6,13 +6,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from routers import chat, upload, sync, insights, report, leads, team, stats, automation
-from scheduler import start_scheduler
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Start scheduler when app boots
-    start_scheduler()
     yield
 
 app = FastAPI(title="GTM Intelligence API", lifespan=lifespan)
