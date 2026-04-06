@@ -146,13 +146,14 @@ export async function clearLeads() {
 }
 
 export async function triggerAutomation() {
-  try {
-    const { data } = await api.post('/automation/trigger', null, {
-      headers: { 'X-Automation-Key': import.meta.env.VITE_AUTOMATION_API_KEY }
-    })
-    return data
-  } catch (error) {
-    return { success: false, data: null, error: error.response?.data?.error || error.message }
+  // Automation temporarily disabled to conserve API costs
+  return {
+    success: true,
+    data: {
+      message: '⚠️ Automation is temporarily disabled to conserve API costs. In production, this triggers a daily pipeline report via email and Slack alerts for stalled deals.',
+      email: 'disabled'
+    },
+    error: null
   }
 }
 
