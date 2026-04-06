@@ -85,7 +85,7 @@ export default function Settings() {
     const res = await triggerAutomation()
     setTriggering(false)
     if (res.success) {
-      setTriggerResult('success')
+      setTriggerResult(res.data?.email === 'disabled' ? 'disabled' : 'success')
       setTimeout(() => setTriggerResult(null), 10000)
     } else {
       setTriggerResult('error')
@@ -283,6 +283,12 @@ export default function Settings() {
             ) : 'Run Now'}
           </button>
 
+          {triggerResult === 'disabled' && (
+            <span className="text-sm text-amber-600 font-medium flex items-center gap-1">
+              <span className="material-symbols-outlined text-lg">info</span>
+              Automation is temporarily disabled to conserve API costs
+            </span>
+          )}
           {triggerResult === 'success' && (
             <span className="text-sm text-emerald-600 font-medium flex items-center gap-1">
               <span className="material-symbols-outlined text-lg">check_circle</span>
