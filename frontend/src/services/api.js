@@ -110,7 +110,9 @@ export async function clearLeads() {
 
 export async function triggerAutomation() {
   try {
-    const { data } = await api.post('/automation/trigger')
+    const { data } = await api.post('/automation/trigger', null, {
+      headers: { 'X-Automation-Key': import.meta.env.VITE_AUTOMATION_API_KEY }
+    })
     return data
   } catch (error) {
     return { success: false, data: null, error: error.response?.data?.error || error.message }

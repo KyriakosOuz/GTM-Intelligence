@@ -1,13 +1,17 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Header, HTTPException
 from scheduler import run_now
 import threading
+import os
 
 router = APIRouter()
 
 
 @router.post("/trigger")
-async def trigger_automation():
+async def trigger_automation(x_automation_key: str = Header()):
     """Manually trigger the daily automation immediately."""
+    expected = os.getenv("AUTOMATION_API_KEY", "")
+    if not expected or x_automation_key != expected:
+        raise HTTPException(status_code=403, detail="Invalid automation key")
     try:
         thread = threading.Thread(target=run_now, daemon=True)
         thread.start()
