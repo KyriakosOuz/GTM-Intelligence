@@ -18,15 +18,11 @@ export async function sendChatMessage(message, history = []) {
 }
 
 export async function uploadCSV(file) {
-  try {
-    const formData = new FormData()
-    formData.append('file', file)
-    const { data } = await api.post('/upload', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
-    return data
-  } catch (error) {
-    return { success: false, data: null, error: error.response?.data?.error || error.message }
+  // Upload temporarily disabled to conserve API costs
+  return {
+    success: false,
+    data: null,
+    error: 'CSV upload is temporarily disabled to conserve API costs. In production, this embeds your CRM data into Pinecone for AI-powered search.'
   }
 }
 
